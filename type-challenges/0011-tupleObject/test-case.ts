@@ -32,6 +32,8 @@ const tupleMix = [1, '2', 3, '4'] as const
 
 type typeOfTuple = typeof tuple
 
+type num = typeOfTuple[number]
+
 
 type cases = [
   Expect<Equal<TupleToObject<typeof tuple>, { tesla: 'tesla'; 'model 3': 'model 3'; 'model X': 'model X'; 'model Y': 'model Y' }>>,

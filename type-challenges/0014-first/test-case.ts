@@ -23,23 +23,27 @@
 
 /* _____________ Your Code Here _____________ */
 // type First<T extends any[]> = T["length"] extends 0 ? never : T[0]
-// type First<T extends any[]> = T["length"] extends 0 ? never : T[0]
-type First<T extends any[]> = T[0] extends T[number] ? T[0]: never
+// type First<T extends any[]> = T extends [] ? never : T[0]
+// type First<T extends any[]> = T[0] extends T[number] ? T[0]: never
+type First<T extends any[]> = T extends [infer First, ... infer Rest] ? First : never
 // type First<T extends any[]> = T[0]
 
 type args = [1,"2"]
 
+
 type t1 = args[number]
 
-type T = number[]
+type T = []
 
-type T0 = T[0]
+type T1 = T[number]
+
 // 看看 某个值是不是在union 里面
-type t2 = T[0] extends args[number] ? "true": "false"
+// type t2 = T[0] extends args[number] ? "true": "false"
 
 
+type Tail<T extends any[]> = T extends [infer First, ...infer Rest] ? Rest  : never
 
-
+type t4 = Tail<[1]>
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
