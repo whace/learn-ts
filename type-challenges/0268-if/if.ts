@@ -22,7 +22,9 @@
 
 type If<C extends boolean, T, F> = C extends true ? T : F
 
+type C<T> = T extends infer X ? X :never
 
+type CT = C<boolean>
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
