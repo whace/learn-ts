@@ -37,7 +37,6 @@
   > View on GitHub: https://tsch.js.org/12
 */
 
-
 /* _____________ Your Code Here _____________ */
 
 // type Chainable<O = {}> = {
@@ -45,57 +44,69 @@
 //   get(): O
 // }
 
-type Chainable<O = {}> = {
-  option<K extends string, V>(key: K, value: V): Chainable<Omit<O, K> & { [P in K]: V }>;
-  get(): O
-}
+// type Chainable<O = {}> = {
+//   option<K extends string, V>(key: K, value: V): Chainable<Omit<O, K> & { [P in K]: V }>;
+//   get(): O
+// }
+// your answers
+// type Chainable<T = {}> = {
+//   option<K extends string, P>(
+//     key: K extends keyof T
+//       ? (Equal<P, T[K]> extends true ? never : K)
+//       : K,
+//     value: P
+//   ): Chainable<Omit<T, K> & Record<K, P>>
+//   get(): T
+// }
 
+type Chainable<T = {}> = {
+  option<K extends string, P>(
+    key: K extends keyof T ? (Equal<P, T[K]> extends true ? never : K) : K,
+    val: P
+  ): Chainable<Omit<T, K> & Record<K, P>>;
+  get(): T;
+};
 
 /* _____________ Test Cases _____________ */
-import type { Alike, Expect } from '@type-challenges/utils'
+import type { Alike, Equal, Expect } from "@type-challenges/utils";
 
-declare const a: Chainable
+declare const a: Chainable;
 
 const result1 = a
-  .option('foo', 123)
-  .option('bar', { value: 'Hello World' })
-  .option('name', 'type-challenges')
-  .get()
+  .option("foo", 123)
+  .option("bar", { value: "Hello World" })
+  .option("name", "type-challenges")
+  .get();
 
 const result2 = a
-  .option('name', 'another name')
+  .option("name", "another name")
   // @ts-expect-error
-  .option('name', 'last name')
-  .get()
+  .option("name", "last name")
+  .get();
 
-const result3 = a
-  .option('name', 'another name')
-  .option('name', 123)
-  .get()
+const result3 = a.option("name", "another name").option("name", 123).get();
 
 type cases = [
   Expect<Alike<typeof result1, Expected1>>,
   Expect<Alike<typeof result2, Expected2>>,
-  Expect<Alike<typeof result3, Expected3>>,
-]
+  Expect<Alike<typeof result3, Expected3>>
+];
 
 type Expected1 = {
-  foo: number
+  foo: number;
   bar: {
-    value: string
-  }
-  name: string
-}
+    value: string;
+  };
+  name: string;
+};
 
 type Expected2 = {
-  name: string
-}
+  name: string;
+};
 
 type Expected3 = {
-  name: number
-}
-
-
+  name: number;
+};
 
 /* _____________ Further Steps _____________ */
 /*
@@ -103,4 +114,3 @@ type Expected3 = {
   > View solutions: https://tsch.js.org/12/solutions
   > More Challenges: https://tsch.js.org
 */
-
