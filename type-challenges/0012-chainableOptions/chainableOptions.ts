@@ -67,6 +67,8 @@ type Chainable<T = {}> = {
   get(): T;
 };
 
+type T<K,P> = (a:K,b:P)=>{}
+
 /* _____________ Test Cases _____________ */
 import type { Alike, Equal, Expect } from "@type-challenges/utils";
 
